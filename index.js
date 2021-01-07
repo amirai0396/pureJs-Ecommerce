@@ -50,8 +50,25 @@ return products
             });
             productsDOM.innerHTML=result;
 }
+getBagButtons(){
+    const buttons = [...document.querySelectorAll(".bag-btn")];
+    buttons.forEach(button => {
+        let id = button.dataset.id;
+        let inCart = cart.find(item => item.id === id)
+        if(inCart){
+            button.innerText = "In Cart";
+            button.disable = true
+        }
+        else {
+            button.addEventListener('click' , (event) =>{
+event.target.innerText ="In Cart"
+event.target.disabled = true;
+            })
+        }
+    })
+}
     }
-    // ------------local storage 
+    // ------------local storage --------------
     class Storage{
         static saveProducts(products){
             localStorage.setItem("products",JSON.stringify(products))
@@ -67,6 +84,6 @@ products.getProducts().then(products => {
     ui.displayProducts(products);
     Storage.saveProducts(products);
 }).then(()=>{
-
+ui.getBagButtons();
 })
     });
